@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  emailInput: FormControl;
+
+  constructor() {
+    this.emailInput = new FormControl('', [
+      Validators.required,
+      Validators.email]);
+    // this.emailInput.valueChanges.subscribe() para controlar los cambios dinamicos
+  }
 
   ngOnInit(): void {
   }
 
+  registerMail(): void {
+    if (this.emailInput.valid) {
+      console.log(this.emailInput.value);
+    }
+  }
 }

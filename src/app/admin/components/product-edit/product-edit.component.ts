@@ -1,26 +1,37 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProductsService} from '../../../core/services/products/products.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MyValidators} from '../../../utils/validators';
 
 @Component({
-  selector: 'app-product-form',
-  templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.css']
+  selector: 'app-product-edit',
+  templateUrl: './product-edit.component.html',
+  styleUrls: ['./product-edit.component.css']
 })
-export class ProductFormComponent {
+export class ProductEditComponent implements OnInit {
+
   form: FormGroup;
+  id: string;
 
   constructor(private formBuilder: FormBuilder,
               private productService: ProductsService,
-              private router: Router) {
+              private router: Router,
+              private activeRoute: ActivatedRoute) {
     this.buildForm();
+  }
+
+  ngOnInit(): void {
+    this.activeRoute.params.subscribe((params: Params) => {
+      this.id = params.id;
+      this.productService.getProduct(this.id).subscribe(product => {
+        this.form.patchValue(product);
+      });
+    });
   }
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      id: ['', [Validators.required]],
       title: ['', Validators.required],
       price: ['', [Validators.required, MyValidators.isPriceValid]],
       image: [''],
@@ -32,11 +43,10 @@ export class ProductFormComponent {
     event.preventDefault();
     if (this.form.valid) {
       const product = this.form.value;
-      this.productService.createProduct(product).subscribe(res => {
+      this.productService.updateProduct(this.id, product).subscribe(res => {
         this.router.navigate(['admin/products']);
       });
     }
 
   }
-
 }
