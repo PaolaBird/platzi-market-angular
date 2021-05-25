@@ -11,6 +11,18 @@ En stag: `ng build -c=stag`
 
 En stag: `ng serve -c=stag`
 
+##Nota:
+Para subir a firebasehosting:
+- firebase init
+- Seguir el proceso respectivo, darle no a sobreescribir
+- Recordar que los archivos publicos quedan en dist/nombreProyecto
+- Ejecutar el ng build correspondiente
+- Ejecutar firebase deploy
+
+## Url de proyecto publicado:
+https://platzi-store-7d4b9.web.app/home
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
