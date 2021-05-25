@@ -12,12 +12,10 @@ const routes: Routes = [
       {path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule)},
       {
         path: 'products',
-        canActivate: [AdminGuard],
         loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
       },
       {
         path: 'contact',
-        canActivate: [AdminGuard],
         loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule)
       },
       {
@@ -28,7 +26,12 @@ const routes: Routes = [
   },
   {
     path: 'admin',
+    canActivate: [AdminGuard],
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {path: '**', component: PageNotFoundComponent}
 ];
